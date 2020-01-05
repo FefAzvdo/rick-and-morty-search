@@ -70,6 +70,15 @@ export default function favorites(state = INITIAL_STATE, action) {
         loading: false,
         error: action.payload.error
       }
+    case Types.SHOW_NEXT_PAGE:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        data: action.payload.data,
+        prev: action.payload.prev,
+        next: action.payload.next,
+      }
     default:
       return { ...state }
   }
