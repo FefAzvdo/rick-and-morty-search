@@ -4,6 +4,7 @@ export const Types = {
   ADD_SUCCESS: "characters/ADD_SUCCESS",
   ADD_FAILURE: "characters/ADD_FAILURE",
   SHOW_NEXT_PAGE: "characters/SHOW_NEXT_PAGE",
+  SHOW_PREV_PAGE: "characters/SHOW_PREV_PAGE"
 }
 
 
@@ -28,7 +29,14 @@ export const Creators = {
 
   showNextPage: (url) => ({
     type: Types.SHOW_NEXT_PAGE,
-    payload: { url }
+    payload: { url },
+
+  }),
+
+  showPrevPage: (url) => ({
+    type: Types.SHOW_PREV_PAGE,
+    payload: { url },
+
   }),
 }
 
@@ -75,9 +83,14 @@ export default function favorites(state = INITIAL_STATE, action) {
         ...state,
         loading: false,
         error: null,
-        data: action.payload.data,
-        prev: action.payload.prev,
         next: action.payload.next,
+      }
+    case Types.SHOW_PREV_PAGE:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        next: action.payload.prev,
       }
     default:
       return { ...state }

@@ -36,32 +36,45 @@ export function* addCharacter(action) {
   }
 }
 
-export function showNextPage(action) {
-  const { data } = axios.get(`${action.payload.url}`)
-    .then(function (response) {
-      // handle success
-      const results = response.data.results;
+export function* showNextPage(action) {
+  const { data } = yield call(axios.get, action.payload.url)
+  const results = data.results;
 
-      const resultsArray = results.map(result => ({
-        image: result.image,
-        name: result.name,
-        id: result.id,
-        status: result.status,
-        species: result.species,
-        type: result.type,
-        gender: result.gender,
-        origin: result.origin.name,
-        location: result.location.name,
-      }))
+  const resultsArray = results.map(result => ({
+    image: result.image,
+    name: result.name,
+    id: result.id,
+    status: result.status,
+    species: result.species,
+    type: result.type,
+    gender: result.gender,
+    origin: result.origin.name,
+    location: result.location.name,
+  }))
 
-      console.log("resultsArray =>", resultsArray)
+  console.log("resultsArray =>", resultsArray)
 
-      put(CharactersActions.addCharacterSuccess(resultsArray, data.info.prev, data.info.next));
-    })
-    .catch(function (error) {
-      // handle error
-      put(CharactersActions.addCharacterFailure("Not found"));
-    })
-
-  console.log("action.payload.url =>> ", action.payload.url)
+  yield put(CharactersActions.addCharacterSuccess(resultsArray, data.info.prev, data.info.next));
 }
+
+export function* showPrevPage(action) {
+  const { data } = yield call(axios.get, action.payload.url)
+  const results = data.results;
+
+  const resultsArray = results.map(result => ({
+    image: result.image,
+    name: result.name,
+    id: result.id,
+    status: result.status,
+    species: result.species,
+    type: result.type,
+    gender: result.gender,
+    origin: result.origin.name,
+    location: result.location.name,
+  }))
+
+  console.log("resultsArray =>", resultsArray)
+
+  yield put(CharactersActions.addCharacterSuccess(resultsArray, data.info.prev, data.info.next));
+}
+

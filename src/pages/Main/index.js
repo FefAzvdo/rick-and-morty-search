@@ -81,7 +81,7 @@ class Main extends React.Component {
   }
 
   handlePrevPage = () => {
-    this.props.showNextPage(this.props.characters.next)
+    this.props.showPrevPage(this.props.characters.prev)
   }
 
   render() {
